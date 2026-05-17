@@ -1,0 +1,186 @@
+import { initializeApp } from "firebase-admin/app";
+import { getFirestore } from "firebase-admin/firestore";
+import { onCall } from "firebase-functions/v2/https";
+
+initializeApp();
+
+export const seedListings = onCall(async () => {
+  const db = getFirestore();
+  const batch = db.batch();
+  const listings = seedListingDocuments();
+
+  for (const listing of listings) {
+    const ref = db.collection("listings").doc(listing.id);
+    batch.set(ref, listing, { merge: true });
+  }
+
+  await batch.commit();
+  return { count: listings.length };
+});
+
+function seedListingDocuments() {
+  return [
+    {
+      id: "preview-1",
+      title: "Oceanview Loft",
+      subtitle: "Steps from the beach",
+      description: "Bright loft with floor-to-ceiling windows, open kitchen, and a private balcony overlooking the bay.",
+      nightlyPrice: 189,
+      currencyCode: "USD",
+      rating: 4.92,
+      reviewCount: 128,
+      bedrooms: 2,
+      bathrooms: 1,
+      maxGuests: 4,
+      amenities: ["Wi‑Fi", "Kitchen", "Washer", "Air conditioning"],
+      imageURLs: [
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=900&q=80",
+        "https://images.unsplash.com/photo-1560448204-e02f11c2d0e2?w=900&q=80",
+        "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=900&q=80",
+        "https://images.unsplash.com/photo-1521783987845-0c4a86b0a9a5?w=900&q=80",
+      ],
+      latitude: 37.7749,
+      longitude: -122.4194,
+      neighborhood: "Mission District",
+      city: "San Francisco",
+      country: "USA",
+      isAvailable: true,
+      hostName: "Alex",
+    },
+    {
+      id: "preview-2",
+      title: "Redwood Cabin",
+      subtitle: "Quiet forest retreat",
+      description: "Cozy cabin surrounded by redwoods with a hot tub, fire pit, and hiking trails out the back door.",
+      nightlyPrice: 240,
+      currencyCode: "USD",
+      rating: 4.88,
+      reviewCount: 64,
+      bedrooms: 3,
+      bathrooms: 2,
+      maxGuests: 6,
+      amenities: ["Hot tub", "Fireplace", "Parking"],
+      imageURLs: [
+        "https://images.unsplash.com/photo-1568605114967-a06c895259f2?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1510798832521-1f304103e63d?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1478131143081-766fb93397ae?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1586105251261-72a756237a44?auto=format&fit=crop&w=900&q=80",
+      ],
+      latitude: 37.8651,
+      longitude: -122.5311,
+      neighborhood: "Berkeley Hills",
+      city: "Berkeley",
+      country: "USA",
+      isAvailable: true,
+      hostName: "Jordan",
+    },
+    {
+      id: "demo-3",
+      title: "Marina Studio",
+      subtitle: "Waterfront views",
+      description: "Compact studio with marina views, perfect for solo travelers or couples exploring the waterfront.",
+      nightlyPrice: 145,
+      currencyCode: "USD",
+      rating: 4.75,
+      reviewCount: 41,
+      bedrooms: 1,
+      bathrooms: 1,
+      maxGuests: 2,
+      amenities: ["Wi‑Fi", "Gym"],
+      imageURLs: [
+        "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=900&q=80",
+        "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=900&q=80",
+        "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=900&q=80",
+        "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=900&q=80",
+      ],
+      latitude: 37.806,
+      longitude: -122.407,
+      neighborhood: "Marina",
+      city: "San Francisco",
+      country: "USA",
+      isAvailable: true,
+      hostName: "Sam",
+    },
+    {
+      id: "demo-4",
+      title: "Sonoma Vineyard Cottage",
+      subtitle: "Wine country escape",
+      description: "Charming cottage on a working vineyard with outdoor dining, fire pit, and valley sunsets.",
+      nightlyPrice: 275,
+      currencyCode: "USD",
+      rating: 4.96,
+      reviewCount: 89,
+      bedrooms: 2,
+      bathrooms: 2,
+      maxGuests: 4,
+      amenities: ["Pool", "Kitchen", "Free parking", "Patio"],
+      imageURLs: [
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80",
+        "https://images.unsplash.com/photo-1600585154340-be6162a9a0ca?w=900&q=80",
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80",
+        "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=900&q=80",
+      ],
+      latitude: 38.2919,
+      longitude: -122.458,
+      neighborhood: "Sonoma Valley",
+      city: "Sonoma",
+      country: "USA",
+      isAvailable: true,
+      hostName: "Elena",
+    },
+    {
+      id: "demo-5",
+      title: "Lake Tahoe Chalet",
+      subtitle: "Alpine lakefront",
+      description: "Spacious chalet with lake access, floor-to-ceiling windows, and a great room for group getaways.",
+      nightlyPrice: 320,
+      currencyCode: "USD",
+      rating: 4.91,
+      reviewCount: 112,
+      bedrooms: 4,
+      bathrooms: 3,
+      maxGuests: 8,
+      amenities: ["Lake access", "Fireplace", "Ski storage", "Hot tub"],
+      imageURLs: [
+        "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&q=80",
+        "https://images.unsplash.com/photo-1600047509808-ba8f99d2cd7a?w=900&q=80",
+        "https://images.unsplash.com/photo-1605276374104-de2b006acd68?w=900&q=80",
+        "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=900&q=80",
+      ],
+      latitude: 39.0968,
+      longitude: -120.0324,
+      neighborhood: "Tahoe City",
+      city: "Lake Tahoe",
+      country: "USA",
+      isAvailable: true,
+      hostName: "Chris",
+    },
+    {
+      id: "demo-6",
+      title: "Pacific Heights Victorian",
+      subtitle: "Classic SF elegance",
+      description: "Restored Victorian with bay windows, original details, and walkable access to parks and dining.",
+      nightlyPrice: 310,
+      currencyCode: "USD",
+      rating: 4.85,
+      reviewCount: 73,
+      bedrooms: 3,
+      bathrooms: 2,
+      maxGuests: 5,
+      amenities: ["Wi‑Fi", "Workspace", "Garden", "Washer"],
+      imageURLs: [
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=80",
+        "https://images.unsplash.com/photo-1600607687644-c7171b42498f?w=900&q=80",
+        "https://images.unsplash.com/photo-1600573472591-ee6b68c0c8a1?w=900&q=80",
+        "https://images.unsplash.com/photo-1600047509348-2bf4e30a4928?w=900&q=80",
+      ],
+      latitude: 37.792,
+      longitude: -122.437,
+      neighborhood: "Pacific Heights",
+      city: "San Francisco",
+      country: "USA",
+      isAvailable: true,
+      hostName: "Riley",
+    },
+  ];
+}

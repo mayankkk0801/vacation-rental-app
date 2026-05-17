@@ -1,0 +1,21 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Run unit and UI tests"
+  lane :test do
+    scan(
+      scheme: "VecationRental",
+      device: "iPhone 16",
+      clean: true
+    )
+  end
+
+  desc "Build and upload to TestFlight"
+  lane :beta do
+    build_app(
+      scheme: "VecationRental",
+      export_method: "app-store"
+    )
+    upload_to_testflight(skip_waiting_for_build_processing: true)
+  end
+end

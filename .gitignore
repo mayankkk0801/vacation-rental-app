@@ -1,0 +1,33 @@
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+
+# Swift Package Manager
+.swiftpm/
+.build/
+
+# Firebase
+GoogleService-Info.plist
+
+functions/.env
+
+# Secrets
+.env
+*.p8
+*.pem
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# macOS
+.DS_Store
+
+# Cursor IDE
+.cursor/
+.cursorrules
+**/.cursor/
