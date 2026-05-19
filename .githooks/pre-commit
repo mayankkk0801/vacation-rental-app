@@ -1,0 +1,13 @@
+#!/bin/sh
+# Block commits made with an automated agent git identity.
+set -eu
+
+author_email="${GIT_AUTHOR_EMAIL:-$(git config --get user.email 2>/dev/null || true)}"
+committer_email="${GIT_COMMITTER_EMAIL:-$(git config --get user.email 2>/dev/null || true)}"
+
+for email in "$author_email" "$committer_email"; do
+  if printf '%s' "$email" | grep -qiE 'cursor|cursoragent'; then
+    echo "error: Use your own git email, not an agent account ($email)." >&2
+    exit 1
+  fi
+done

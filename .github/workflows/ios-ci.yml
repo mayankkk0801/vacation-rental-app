@@ -11,6 +11,10 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify commit messages
+        run: ./scripts/verify-clean-commits.sh
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
       - name: Resolve packages

@@ -27,7 +27,11 @@ fastlane/test_output
 # macOS
 .DS_Store
 
-# Cursor IDE
+# Local editor and agent config (never commit)
 .cursor/
+.cursor/**
 .cursorrules
+.cursorignore
 **/.cursor/
+.agent/
+*.mdc
